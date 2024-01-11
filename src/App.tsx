@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react";
+import Page from "./pages/Page";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Menu>
+        <MenuButton as={Button}>きりかえ</MenuButton>
+        <MenuList>
+          <MenuItem as={Link} to="/page1">
+            ほいくえんにいくまえ
+          </MenuItem>
+          <MenuItem as={Link} to="/page2">
+            でかけるとき
+          </MenuItem>
+          <MenuItem as={Link} to="/page3">
+            ねるまでにやること
+          </MenuItem>
+        </MenuList>
+      </Menu>
+      <Routes>
+        <Route path="/:pageId" element={<Page />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

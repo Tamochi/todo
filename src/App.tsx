@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   HashRouter as Router,
   Routes,
   Route,
   Link,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 import { TabList, Tabs, Tab } from "@chakra-ui/react";
 import Page from "./pages/Page";
@@ -35,10 +36,38 @@ const Navigation: React.FC = () => {
   );
 };
 
+const getRedirectPath = () => {
+  const now = new Date();
+  const dayOfWeek = now.getDay();
+  const hour = now.getHours();
+
+  if (hour >= 17) {
+    return "/page3";
+  } else if (dayOfWeek >= 1 && dayOfWeek <= 5 && hour < 9) {
+    return "/page1";
+  } else {
+    return "/page2";
+  }
+};
+
+const RedirectToProperTab = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      navigate(getRedirectPath());
+    }
+  }, [location, navigate]);
+
+  return null;
+};
+
 const App: React.FC = () => {
   return (
     <Router>
       <Navigation />
+      <RedirectToProperTab />
       <Routes>
         <Route path="/:pageId" element={<Page />} />
       </Routes>

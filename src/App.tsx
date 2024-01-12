@@ -5,7 +5,7 @@ import Page from "./pages/Page";
 
 const App: React.FC = () => {
   return (
-    <Router>
+    <Router basename="/todo">
       <Menu>
         <MenuButton as={Button}>きりかえ</MenuButton>
         <MenuList>

@@ -12,6 +12,7 @@ import {
 import { useParams } from "react-router-dom";
 
 interface Todo {
+  switchState: boolean;
   id: number;
   text: string;
 }
@@ -54,12 +55,12 @@ const Page: React.FC = () => {
   }, [todos1, todos2, pageId]);
 
   const addTodo1 = (text: string) => {
-    const newTodo = { id: Date.now(), text };
+    const newTodo = { id: Date.now(), text, switchState: false };
     setTodos1((prevTodos) => [...prevTodos, newTodo]);
   };
 
   const addTodo2 = (text: string) => {
-    const newTodo = { id: Date.now(), text };
+    const newTodo = { id: Date.now(), text, switchState: false };
     setTodos2((prevTodos) => [...prevTodos, newTodo]);
   };
 
@@ -118,7 +119,21 @@ const Page: React.FC = () => {
       return newTodos;
     });
   };
+  const handleToggleSwitch1 = (id: number) => {
+    setTodos1(
+      todos1.map((todo) =>
+        todo.id === id ? { ...todo, switchState: !todo.switchState } : todo
+      )
+    );
+  };
 
+  const handleToggleSwitch2 = (id: number) => {
+    setTodos2(
+      todos2.map((todo) =>
+        todo.id === id ? { ...todo, switchState: !todo.switchState } : todo
+      )
+    );
+  };
   return (
     <Container maxW="container.md">
       <Flex justifyContent="space-between" alignItems="center" mb={4}>
@@ -141,6 +156,7 @@ const Page: React.FC = () => {
             onDeleteTodo={deleteTodo1}
             onMoveTodoUp={moveTodoUp1}
             onMoveTodoDown={moveTodoDown1}
+            onToggleSwitch={handleToggleSwitch1}
             isEditMode={isEditMode}
           />
           {isEditMode && <AddTodo onAddTodo={addTodo1} />}
@@ -154,6 +170,7 @@ const Page: React.FC = () => {
             onDeleteTodo={deleteTodo2}
             onMoveTodoUp={moveTodoUp2}
             onMoveTodoDown={moveTodoDown2}
+            onToggleSwitch={handleToggleSwitch2}
             isEditMode={isEditMode}
           />
           {isEditMode && <AddTodo onAddTodo={addTodo2} />}
